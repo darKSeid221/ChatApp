@@ -9,5 +9,7 @@ data class ChatMessage(
     val text: String,
     val timestamp: Long,
     val isSentByMe: Boolean,
-    val status: MessageStatus = MessageStatus.SENT
+    val status: MessageStatus = MessageStatus.SENT,
+    val senderId: Long? = null,
+    val senderName: String? = null
 )

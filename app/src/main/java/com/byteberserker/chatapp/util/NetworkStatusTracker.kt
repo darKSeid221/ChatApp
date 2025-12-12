@@ -20,12 +20,21 @@ class NetworkStatusTracker(context: Context) {
             override fun onLost(network: Network) {
                 trySend(false)
             }
-            // Also send initial state if possible, or assume false until onAvailable
         }
         val request = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
         connectivityManager.registerNetworkCallback(request, networkCallback)
+
+        // Emit current state
+        val currentNetwork = connectivityManager.activeNetwork
+        if (currentNetwork == null) {
+            trySend(false)
+        } else {
+             val caps = connectivityManager.getNetworkCapabilities(currentNetwork)
+             val isConnected = caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+             trySend(isConnected)
+        }
 
         awaitClose {
             connectivityManager.unregisterNetworkCallback(networkCallback)

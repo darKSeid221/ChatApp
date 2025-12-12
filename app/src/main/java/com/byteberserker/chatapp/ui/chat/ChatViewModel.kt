@@ -11,23 +11,63 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+import androidx.lifecycle.SavedStateHandle
+
+import com.byteberserker.chatapp.domain.repository.ChatRepository
+
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val getMessagesUseCase: GetMessagesUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
-    val networkStatusTracker: NetworkStatusTracker
+    private val repository: ChatRepository,
+    val networkStatusTracker: NetworkStatusTracker,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     
-    val messages = getMessagesUseCase().stateIn(
+    private val chatId: Long = checkNotNull(savedStateHandle["chatId"])
+
+    val chat = repository.getChat(chatId).stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        null
+    )
+
+    val messages = getMessagesUseCase(chatId).stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         emptyList()
     )
 
+    val isOnline = networkStatusTracker.networkStatus.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        true
+    )
+
+    val errors = repository.connectionErrors
+
+    init {
+        // Mark as read when entering the chat
+        markAsRead()
+    }
+
+    fun markAsRead() {
+        viewModelScope.launch {
+            repository.markChatAsRead(chatId)
+        }
+    }
 
     fun sendMessage(text: String) {
         viewModelScope.launch {
-            sendMessageUseCase(text)
+            sendMessageUseCase(chatId, text)
         }
+    }
+
+    fun onResume() {
+        repository.setActiveChat(chatId)
+    }
+
+    fun onPause() {
+        repository.setActiveChat(null)
     }
 }
