@@ -1,4 +1,4 @@
-package com.robustrade.chatapp
+package com.byteberserker.chatapp
 
 import org.junit.Test
 

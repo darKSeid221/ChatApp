@@ -1,14 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
+    alias(libs.plugins.hilt.android)
 }
 
 android {
-    namespace = "com.robustrade.chatapp"
+    namespace = "com.byteberserker.chatapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.robustrade.chatapp"
+        applicationId = "com.byterberker.chatapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -33,6 +35,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 dependencies {
@@ -45,4 +53,24 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.androidx.activity.compose)
+    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    implementation(libs.okhttp)
+    implementation(libs.gson)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }
