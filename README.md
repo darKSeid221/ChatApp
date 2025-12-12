@@ -15,7 +15,7 @@ Presentation → ViewModel → Domain → Data
 
 ## 🛠️ Tech Stack
 
-- Kotlin, XML
+- Kotlin, Compose
 - Coroutines & Flow
 - Room, Dagger, Websocket
 - Min SDK: 24 | Target SDK: 35
