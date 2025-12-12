@@ -1,4 +1,4 @@
-# Chat App [In-Progress]
+# Chat App
 
 Offline First Android App to show single screen chat screen with chats, ability to send and recieve message and send queued chats.
 
