@@ -28,9 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        installSplashScreen()
-        
+
         setContent {
             MaterialTheme {
                 val navController = rememberNavController()
