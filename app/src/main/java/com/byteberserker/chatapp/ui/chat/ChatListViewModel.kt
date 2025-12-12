@@ -53,6 +53,8 @@ class ChatListViewModel @Inject constructor(
                     type = "GLOBAL"
                 )
                 repository.createChat(globalChat)
+            } else {
+                repository.markChatAsRead(1L)
             }
         }
     }

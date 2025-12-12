@@ -156,7 +156,8 @@ fun ChatListScreenPreview() {
     val dummyChats = listOf(
         Chat(1L, "Global Chat", "Welcome!", System.currentTimeMillis(), 0, "GLOBAL"),
         Chat(2L, "Alice", "Hello there", System.currentTimeMillis(), 2, "DM"),
-        Chat(3L, "Bob", "See you later", System.currentTimeMillis(), 0, "DM")
+        Chat(3L, "Bob", "See you later", System.currentTimeMillis(), 0, "DM"),
+        Chat(4L, "Empty Chat", "", System.currentTimeMillis(), 0, "DM")
     )
     MaterialTheme {
         ChatListContent(
@@ -203,7 +204,7 @@ fun ChatItem(
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
-                        text = chat.lastMessage,
+                        text = if (chat.lastMessage.isBlank()) "Tap to start chatting" else chat.lastMessage,
                         style = MaterialTheme.typography.bodyMedium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
