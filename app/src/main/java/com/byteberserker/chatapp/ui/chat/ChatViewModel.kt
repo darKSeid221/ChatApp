@@ -47,7 +47,6 @@ class ChatViewModel @Inject constructor(
     val errors = repository.connectionErrors
 
     init {
-        // Mark as read when entering the chat
         markAsRead()
     }
 

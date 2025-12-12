@@ -15,15 +15,14 @@ data class NetworkChatMessage(
 )
 
 fun NetworkChatMessage.toEntity(chatId: Long = 1): ChatMessageEntity? {
-    if (text == null) return null // Skip messages without text
-    // Default values for missing fields to avoid crashes
+    if (text == null) return null
     return ChatMessageEntity(
-        id = 0, // Force auto-generate to avoid collisions with server IDs
+        id = 0,
         chatId = chatId,
         text = text,
         timestamp = if ((timestamp ?: 0L) > 1577836800000L) timestamp!! else System.currentTimeMillis(), // Verify if > Year 2020, else use Now
         isSentByMe = isSentByMe ?: false,
-        status = MessageStatus.RECEIVED, // Default to RECEIVED for incoming
+        status = MessageStatus.RECEIVED,
         senderId = senderId,
         senderName = senderName
     )

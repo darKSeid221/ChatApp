@@ -67,7 +67,6 @@ fun ChatScreen(
     val messages by viewModel.messages.collectAsState(initial = emptyList())
     val chat by viewModel.chat.collectAsState()
     val isOnline by viewModel.isOnline.collectAsState()
-    // Notify repository about active chat to prevent unread count increment
     DisposableEffect(Unit) {
         viewModel.onResume()
         onDispose {
@@ -76,7 +75,6 @@ fun ChatScreen(
     }
     val snackbarHostState = remember { SnackbarHostState() }
     
-    // Ideally use shared VM or passed down, but this works for drawer
     val chatListViewModel: ChatListViewModel = hiltViewModel()
     val chats by chatListViewModel.chats.collectAsState()
 
@@ -139,7 +137,6 @@ fun ChatTopBar(
         TopAppBar(
             title = {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    // Avatar Placeholder
                     Surface(
                         shape = CircleShape,
                         color = MaterialTheme.colorScheme.primaryContainer,
@@ -226,7 +223,7 @@ fun ChatScreenContent(
                 onValueChange = { inputText = it },
                 modifier = Modifier.weight(1f),
                 placeholder = { Text("Type a message...") },
-                enabled = isOnline || true // Allow typing even if offline, will queue
+                enabled = isOnline || true
             )
             IconButton(
                 onClick = {

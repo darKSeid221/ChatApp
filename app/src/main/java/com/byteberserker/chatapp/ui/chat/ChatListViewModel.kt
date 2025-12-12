@@ -29,7 +29,7 @@ class ChatListViewModel @Inject constructor(
     val isOnline = networkStatusTracker.networkStatus.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
-        true // Optimistic default
+        true
     )
 
     val errors = repository.connectionErrors
@@ -40,15 +40,10 @@ class ChatListViewModel @Inject constructor(
 
     private fun seedData() {
         viewModelScope.launch {
-            // Only seed Global Chat if it's missing (First Run)
-            // Do NOT clear chats here, or we lose DMs on restart/recreation
-            
-            // Check if Global Chat exists
             val existingChats = repository.getChats().firstOrNull()
             val hasGlobalChat = existingChats?.any { it.id == 1L } == true
             
             if (!hasGlobalChat) {
-                // Restore persistent Global Chat so the user has an entry point
                 val globalChat = Chat(
                     id = 1L, 
                     name = "Global Chat", 

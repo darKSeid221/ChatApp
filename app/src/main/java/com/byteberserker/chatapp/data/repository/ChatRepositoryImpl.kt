@@ -79,8 +79,6 @@ class ChatRepositoryImpl @Inject constructor(
                 try {
                     android.util.Log.d("ChatRepo", "Received: $text")
                     val networkMessage = gson.fromJson(text, NetworkChatMessage::class.java)
-                    
-                    // Determine Chat Type and ID
                     val receivedChatId = networkMessage.chatId ?: networkMessage.senderId ?: 1L
                     val isGlobal = receivedChatId == 1L
                     val finalChatId = receivedChatId
@@ -89,7 +87,6 @@ class ChatRepositoryImpl @Inject constructor(
                     val chatType = if (isGlobal) "GLOBAL" else "DM"
 
                     CoroutineScope(Dispatchers.IO).launch {
-                         // Update or Create Chat
                         if (networkMessage.isSentByMe != true) {
                             val exists = chatDao.chatExists(finalChatId)
                             val increment = if (finalChatId == activeChatId) 0 else 1
@@ -114,7 +111,6 @@ class ChatRepositoryImpl @Inject constructor(
                             }
                         }
 
-                        // Insert Message (Force Auto-ID via toEntity mapping)
                         val entity = networkMessage.toEntity(chatId = finalChatId)
                         if (entity != null) {
                             if (networkMessage.isSentByMe != true) {
@@ -179,23 +175,18 @@ class ChatRepositoryImpl @Inject constructor(
             senderId = userSession.myUserId,
             senderName = userSession.myUserName
         )
-
-        // Save to DB (get ID)
         val id = chatDao.insertMessage(initialMessage.toEntity(chatId))
         val messageWithId = initialMessage.copy(id = id)
 
-        // Wrapper for Network Payload
-        // We reuse NetworkChatMessage for sending to simplicity, or create a specific payload DTO.
-        // Assuming server accepts NetworkChatMessage structure.
         val networkPayload = NetworkChatMessage(
             id = id,
             text = text,
             timestamp = timestamp,
-            isSentByMe = true, // Server might ignore this
+            isSentByMe = true,
             status = "SENT",
              senderId = userSession.myUserId,
             senderName = userSession.myUserName,
-            chatId = chatId // Tell server where this goes
+            chatId = chatId
         )
 
         val json = gson.toJson(networkPayload)

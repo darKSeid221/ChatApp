@@ -26,7 +26,6 @@ class NetworkStatusTracker(context: Context) {
             .build()
         connectivityManager.registerNetworkCallback(request, networkCallback)
 
-        // Emit current state
         val currentNetwork = connectivityManager.activeNetwork
         if (currentNetwork == null) {
             trySend(false)

@@ -6,7 +6,6 @@ class WebSocketClient {
     private var webSocket: WebSocket? = null
     private val client = OkHttpClient()
     
-    // Simple single listener for now, can be expanded
     private var listener: WebSocketListener? = null
 
     fun connect(url: String, listener: WebSocketListener) {
