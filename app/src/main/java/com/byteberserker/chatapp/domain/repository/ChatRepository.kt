@@ -13,6 +13,8 @@ interface ChatRepository {
     suspend fun retryQueuedMessages()
     suspend fun createChat(chat: Chat)
     suspend fun clearChats()
+    suspend fun clearAllData()
+    suspend fun deleteChat(chatId: Long)
     suspend fun markChatAsRead(chatId: Long)
     
     fun setActiveChat(chatId: Long?)

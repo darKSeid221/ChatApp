@@ -236,5 +236,15 @@ class ChatRepositoryImpl @Inject constructor(
     override suspend fun markChatAsRead(chatId: Long) {
         chatDao.resetUnreadCount(chatId)
     }
+
+    override suspend fun deleteChat(chatId: Long) {
+        chatDao.deleteMessagesByChatId(chatId)
+        chatDao.deleteChat(chatId)
+    }
+
+    override suspend fun clearAllData() {
+        chatDao.clearAllMessages()
+        chatDao.clearAllChats()
+    }
 }
 

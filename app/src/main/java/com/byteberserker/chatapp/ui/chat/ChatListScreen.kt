@@ -121,6 +121,7 @@ fun ChatListScreen(
                 ChatListContent(
                     chats = it, 
                     onChatClick = onChatClick, 
+                    onDeleteClick = viewModel::deleteChat,
                     modifier = Modifier.padding(paddingValues)
                 )
             }
@@ -132,13 +133,18 @@ fun ChatListScreen(
 fun ChatListContent(
     chats: List<Chat>,
     onChatClick: (Long) -> Unit,
+    onDeleteClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize()
     ) {
         items(chats) { chat ->
-            ChatItem(chat = chat, onClick = { onChatClick(chat.id) })
+            ChatItem(
+                chat = chat, 
+                onClick = { onChatClick(chat.id) },
+                onDeleteClick = { onDeleteClick(chat.id) }
+            )
             HorizontalDivider()
         }
     }
@@ -153,14 +159,19 @@ fun ChatListScreenPreview() {
         Chat(3L, "Bob", "See you later", System.currentTimeMillis(), 0, "DM")
     )
     MaterialTheme {
-        ChatListContent(chats = dummyChats, onChatClick = {})
+        ChatListContent(
+            chats = dummyChats, 
+            onChatClick = {}, 
+            onDeleteClick = {}
+        )
     }
 }
 
 @Composable
 fun ChatItem(
     chat: Chat,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -224,6 +235,16 @@ fun ChatItem(
                         )
                     }
                 }
+            }
+        }
+        
+        if (chat.type != "GLOBAL") {
+            IconButton(onClick = onDeleteClick) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete conversation",
+                    tint = MaterialTheme.colorScheme.error
+                )
             }
         }
     }

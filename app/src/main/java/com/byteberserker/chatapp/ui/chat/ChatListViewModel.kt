@@ -61,4 +61,10 @@ class ChatListViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteChat(chatId: Long) {
+        viewModelScope.launch {
+            repository.deleteChat(chatId)
+        }
+    }
 }

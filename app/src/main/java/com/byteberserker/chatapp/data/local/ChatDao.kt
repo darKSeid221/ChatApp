@@ -46,4 +46,10 @@ interface ChatDao {
 
     @Query("UPDATE chats SET unreadCount = 0 WHERE id = :chatId")
     suspend fun resetUnreadCount(chatId: Long)
+
+    @Query("DELETE FROM chats WHERE id = :chatId")
+    suspend fun deleteChat(chatId: Long)
+
+    @Query("DELETE FROM messages WHERE chatId = :chatId")
+    suspend fun deleteMessagesByChatId(chatId: Long)
 }

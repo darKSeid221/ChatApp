@@ -101,7 +101,8 @@ fun ChatScreen(
                                 drawerState.close()
                                 onNavigateToChat(chatId)
                             }
-                        }
+                        },
+                        onDeleteClick = chatListViewModel::deleteChat
                     )
                 }
             }

@@ -2,12 +2,10 @@ package com.byteberserker.chatapp
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.byteberserker.chatapp.ui.chat.ChatScreen
 import com.byteberserker.chatapp.ui.chat.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
 import androidx.compose.material3.MaterialTheme
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,11 +13,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.hilt.navigation.compose.hiltViewModel
-
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import javax.inject.Inject
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import com.byteberserker.chatapp.domain.repository.ChatRepository
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var repository: ChatRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +55,15 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                 }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinishing) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                repository.clearAllData()
             }
         }
     }
