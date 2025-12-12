@@ -2,8 +2,13 @@
 
 Offline First Android App to show single screen chat screen with chats, ability to send and recieve message and send queued chats.
 
-<img width="200" height="400" alt="Screenshot 2025-12-12 at 8 48 47 AM" src="https://github.com/user-attachments/assets/c89306cb-1018-4ea7-a35b-d0d9eb2620f7" />
+<img width="200" height="400" alt="Screenshot 2025-12-12 at 9 50 53 PM" src="https://github.com/user-attachments/assets/e9796b02-39a6-4fa4-8210-fc78ad46279c" />
 
+<img width="200" height="400" alt="Screenshot 2025-12-12 at 9 19 39 PM" src="https://github.com/user-attachments/assets/7c68d426-4fcc-4e4d-8ea8-f237f9e382d6" />
+
+<img width="200" height="400" alt="Screenshot 2025-12-12 at 9 15 57 PM" src="https://github.com/user-attachments/assets/faa99519-d97f-4064-be05-c801dc1239cf" />
+
+<img width="200" height="400" alt="Screenshot 2025-12-12 at 9 19 32 PM" src="https://github.com/user-attachments/assets/de5e18f3-87a8-427e-ae68-e49315bd47f1" />
 
 ## 🏗️ Architecture
 
